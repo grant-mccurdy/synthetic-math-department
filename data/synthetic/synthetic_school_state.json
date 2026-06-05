@@ -180,7 +180,15 @@
     "synthetic_asma_gradebook.csv",
     "synthetic_math_courses.csv",
     "synthetic_math_sections.csv",
-    "synthetic_math_enrollments.csv"
+    "synthetic_math_enrollments.csv",
+    "canvas_course_profiles/MATH-ALG1.json",
+    "canvas_course_profiles/MATH-GEOM.json",
+    "canvas_course_profiles/MATH-ALG2.json",
+    "canvas_course_profiles/MATH-ALG2-H.json",
+    "canvas_course_profiles/MATH-PRECALC.json",
+    "canvas_course_profiles/MATH-AP-PRECALC.json",
+    "canvas_course_profiles/MATH-AP-CALC-AB.json",
+    "canvas_course_profiles/MATH-AP-CALC-BC.json"
   ],
   "enrollments": [
     {
