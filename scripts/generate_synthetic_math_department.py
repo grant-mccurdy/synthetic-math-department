@@ -17,6 +17,7 @@ GRADEBOOK_PATH = SYNTHETIC_DATA_DIR / "synthetic_asma_gradebook.csv"
 COURSES_PATH = SYNTHETIC_DATA_DIR / "synthetic_math_courses.csv"
 SECTIONS_PATH = SYNTHETIC_DATA_DIR / "synthetic_math_sections.csv"
 ENROLLMENTS_PATH = SYNTHETIC_DATA_DIR / "synthetic_math_enrollments.csv"
+CANVAS_COURSE_PROFILES_DIR = SYNTHETIC_DATA_DIR / "canvas_course_profiles"
 
 SCHOOL_YEAR = "2025-2026"
 SEED = 20260604
@@ -420,6 +421,12 @@ def build_synthetic_math_department_state(
             }
         )
 
+    canvas_profile_artifacts = [
+        f"canvas_course_profiles/{course['course_id']}.json"
+        for course in course_rows
+        if course["current_year_eligible"]
+    ]
+
     return {
         "schema_version": "synthetic_math_department_state_v1",
         "random_seed": SEED,
@@ -447,8 +454,65 @@ def build_synthetic_math_department_state(
             "synthetic_math_courses.csv",
             "synthetic_math_sections.csv",
             "synthetic_math_enrollments.csv",
+            *canvas_profile_artifacts,
         ],
     }
+
+
+def render_canvas_course_profiles_from_state(state: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    students_by_id = {student["student_key"]: student for student in state["students"]}
+    sections_by_course: dict[str, list[dict[str, Any]]] = {}
+    for section in state["sections"]:
+        sections_by_course.setdefault(section["course_id"], []).append(section)
+
+    enrollments_by_section: dict[str, list[dict[str, Any]]] = {}
+    for enrollment in state["enrollments"]:
+        enrollments_by_section.setdefault(enrollment["section_id"], []).append(enrollment)
+
+    profiles = {}
+    for course in state["courses"]:
+        if not course["current_year_eligible"]:
+            continue
+
+        course_sections = []
+        for section in sorted(sections_by_course.get(course["course_id"], []), key=lambda row: row["section_id"]):
+            section_students = []
+            for enrollment in sorted(enrollments_by_section.get(section["section_id"], []), key=lambda row: row["SIS User ID"]):
+                student = students_by_id[enrollment["SIS User ID"]]
+                section_students.append(
+                    {
+                        "Student": student["student_label"],
+                        "SIS User ID": student["student_key"],
+                        "Email": student["email"],
+                        "grade_level": student["grade_level"],
+                        "enrollment_status": enrollment["enrollment_status"],
+                    }
+                )
+
+            course_sections.append(
+                {
+                    "section_id": section["section_id"],
+                    "section_label": section["section_label"],
+                    "period_label": section["period_label"],
+                    "teacher": {
+                        "teacher_id": section["teacher_id"],
+                        "teacher_label": section["teacher_label"],
+                    },
+                    "students": section_students,
+                }
+            )
+
+        profiles[f"{course['course_id']}.json"] = {
+            "canvas_course_id": f"SYN-CANVAS-{course['course_id']}-{state['school_year']}",
+            "course_id": course["course_id"],
+            "course_name": course["course_name"],
+            "track": course["track"],
+            "school_year": state["school_year"],
+            "source_system": "synthetic_canvas",
+            "sections": course_sections,
+        }
+
+    return profiles
 
 
 def render_gradebook_rows_from_state(state: dict[str, Any]) -> list[dict[str, str]]:
@@ -482,12 +546,22 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
         file.write("\n")
 
 
+def write_canvas_course_profiles(path: Path, profiles: dict[str, dict[str, Any]]) -> None:
+    path.mkdir(parents=True, exist_ok=True)
+    for old_profile in path.glob("*.json"):
+        old_profile.unlink()
+    for filename, profile in sorted(profiles.items()):
+        write_json(path / filename, profile)
+
+
 def main() -> None:
     rows, course_rows, section_rows, enrollment_rows = build_rows()
     state = build_synthetic_math_department_state(rows, course_rows, section_rows, enrollment_rows)
     gradebook_rows = render_gradebook_rows_from_state(state)
+    canvas_course_profiles = render_canvas_course_profiles_from_state(state)
 
     write_json(STATE_PATH, state)
+    write_canvas_course_profiles(CANVAS_COURSE_PROFILES_DIR, canvas_course_profiles)
     write_csv(
         GRADEBOOK_PATH,
         ["Student", "ID", "SIS User ID", "SIS Login ID", "Email", "Section", *[f"Assignment {idx:02d}" for idx in range(1, ASSIGNMENT_COUNT + 1)]],

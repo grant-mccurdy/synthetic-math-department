@@ -17,6 +17,7 @@ GRADEBOOK_PATH = SYNTHETIC_DATA_DIR / "synthetic_asma_gradebook.csv"
 COURSES_PATH = SYNTHETIC_DATA_DIR / "synthetic_math_courses.csv"
 SECTIONS_PATH = SYNTHETIC_DATA_DIR / "synthetic_math_sections.csv"
 ENROLLMENTS_PATH = SYNTHETIC_DATA_DIR / "synthetic_math_enrollments.csv"
+CANVAS_COURSE_PROFILES_DIR = SYNTHETIC_DATA_DIR / "canvas_course_profiles"
 
 EXPECTED_COUNTS = {
     "students": 287,
@@ -25,6 +26,7 @@ EXPECTED_COUNTS = {
     "sections": 25,
     "enrollments": 287,
     "assignments": 14,
+    "canvas_course_profiles": 8,
 }
 
 BANNED_PUBLIC_STRINGS = (
@@ -99,6 +101,64 @@ def validate_enrollments(courses: list[dict[str, str]], sections: list[dict[str,
     require(all(count > 0 for count in section_counts.values()), "Sections should not be empty.")
 
 
+def validate_canvas_course_profiles(
+    state: dict[str, Any],
+    courses: list[dict[str, str]],
+    sections: list[dict[str, str]],
+    enrollments: list[dict[str, str]],
+    gradebook_rows: list[dict[str, str]],
+) -> tuple[Path, ...]:
+    profile_paths = tuple(sorted(CANVAS_COURSE_PROFILES_DIR.glob("*.json")))
+    require(len(profile_paths) == EXPECTED_COUNTS["canvas_course_profiles"], "Unexpected Canvas course profile count.")
+    require(not (CANVAS_COURSE_PROFILES_DIR / "MATH-BEYOND-CORE.json").exists(), "Beyond Core should not have a current-year Canvas profile.")
+
+    courses_by_id = {row["course_id"]: row for row in courses}
+    eligible_course_ids = {row["course_id"] for row in courses if row["current_year_eligible"] == "True"}
+    section_lookup = {row["section_id"]: row for row in sections}
+    section_ids_by_course: dict[str, set[str]] = {}
+    for section in sections:
+        section_ids_by_course.setdefault(section["course_id"], set()).add(section["section_id"])
+
+    enrollment_lookup = {(row["section_id"], row["SIS User ID"]) for row in enrollments}
+    gradebook_student_ids = {row["SIS User ID"] for row in gradebook_rows}
+    profile_student_ids = []
+
+    expected_artifacts = {f"canvas_course_profiles/{course_id}.json" for course_id in eligible_course_ids}
+    require(expected_artifacts.issubset(set(state["derived_artifacts"])), "State derived artifacts do not list every Canvas course profile.")
+
+    for path in profile_paths:
+        profile = json.loads(path.read_text(encoding="utf-8"))
+        course_id = profile["course_id"]
+        require(path.name == f"{course_id}.json", f"Canvas profile filename does not match course_id: {path}")
+        require(course_id in eligible_course_ids, f"Canvas profile references ineligible or unknown course: {course_id}")
+        require(profile["course_name"] == courses_by_id[course_id]["course_name"], f"Course name mismatch for {course_id}.")
+        require(profile["track"] == courses_by_id[course_id]["track"], f"Track mismatch for {course_id}.")
+        require(profile["source_system"] == "synthetic_canvas", f"Unexpected source system for {course_id}.")
+
+        seen_profile_sections = set()
+        for profile_section in profile["sections"]:
+            section_id = profile_section["section_id"]
+            require(section_id in section_lookup, f"Canvas profile references unknown section: {section_id}")
+            require(section_id in section_ids_by_course[course_id], f"Section {section_id} does not belong to {course_id}.")
+            require(profile_section["teacher"]["teacher_id"] == section_lookup[section_id]["teacher_id"], f"Teacher mismatch for {section_id}.")
+            seen_profile_sections.add(section_id)
+
+            for student in profile_section["students"]:
+                student_id = student["SIS User ID"]
+                profile_student_ids.append(student_id)
+                require(student_id in gradebook_student_ids, f"Canvas profile student missing from gradebook: {student_id}")
+                require((section_id, student_id) in enrollment_lookup, f"Canvas profile student lacks matching enrollment: {section_id}, {student_id}")
+                require(student["Email"].endswith("@schoolname.org"), f"Unexpected profile email domain for {student_id}.")
+                require(student["enrollment_status"] == "active", f"Unexpected enrollment status for {student_id}.")
+
+        require(seen_profile_sections == section_ids_by_course[course_id], f"Canvas profile section set mismatch for {course_id}.")
+
+    require(len(profile_student_ids) == EXPECTED_COUNTS["enrollments"], "Canvas profile enrollment count mismatch.")
+    require(set(profile_student_ids) == gradebook_student_ids, "Canvas profile students do not match gradebook students.")
+    require(len(profile_student_ids) == len(set(profile_student_ids)), "Each student should appear in exactly one Canvas course profile.")
+    return profile_paths
+
+
 def validate_public_safety(paths: tuple[Path, ...]) -> None:
     for path in paths:
         text = path.read_text(encoding="utf-8")
@@ -116,7 +176,8 @@ def main() -> None:
     validate_counts(state, gradebook_rows, courses, sections, enrollments)
     validate_gradebook(gradebook_rows)
     validate_enrollments(courses, sections, enrollments, gradebook_rows)
-    validate_public_safety((STATE_PATH, GRADEBOOK_PATH, COURSES_PATH, SECTIONS_PATH, ENROLLMENTS_PATH))
+    profile_paths = validate_canvas_course_profiles(state, courses, sections, enrollments, gradebook_rows)
+    validate_public_safety((STATE_PATH, GRADEBOOK_PATH, COURSES_PATH, SECTIONS_PATH, ENROLLMENTS_PATH, *profile_paths))
     print("Synthetic math department artifacts passed validation.")
 
 

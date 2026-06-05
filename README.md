@@ -39,6 +39,12 @@ data/synthetic/synthetic_math_sections.csv
 data/synthetic/synthetic_math_enrollments.csv
 ```
 
+The generator also renders synthetic Canvas-style course profiles:
+
+```text
+data/synthetic/canvas_course_profiles/
+```
+
 ## Generate And Validate
 
 ```bash
@@ -90,6 +96,7 @@ Version 1 generates a baseline 2025-2026 synthetic math department with:
 - 9 math course entries
 - 25 sections
 - 287 active enrollments
+- 8 synthetic Canvas course JSON profiles
 - 14 assessment assignment fields
 - only `Assignment 01` populated
 

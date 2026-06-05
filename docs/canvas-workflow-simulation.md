@@ -23,11 +23,14 @@ data/synthetic/synthetic_asma_gradebook.csv
 data/synthetic/synthetic_math_courses.csv
 data/synthetic/synthetic_math_sections.csv
 data/synthetic/synthetic_math_enrollments.csv
+data/synthetic/canvas_course_profiles/
 ```
 
 The gradebook contains synthetic Canvas-style student identifiers and 14 generic assignment fields. Only `Assignment 01` is populated in v1.
 
 The course, section, and enrollment CSVs provide the math department context needed for downstream analysis.
+
+The course profile directory contains one JSON file per current-year eligible math course. Each JSON profile includes course metadata, sections, fake teacher metadata, and enrolled synthetic students.
 
 ## Join Model
 
@@ -39,11 +42,19 @@ Email
 
 The `SIS User ID` field is also stable and unique. Downstream analysis can use either key, but email mirrors the practical Canvas-course join workflow.
 
-## Future Course JSON Profiles
+## Course JSON Profiles
 
-The next workflow layer should render synthetic Canvas course JSON profiles from the canonical state. Those JSON profiles should function as year-specific course shells.
+Synthetic Canvas course JSON profiles are rendered from the canonical state. They function as year-specific course shells for the workflow simulation.
 
-Future shape:
+Current shape:
+
+```text
+synthetic_school_state.json
+-> synthetic ASMA gradebook CSV
+-> synthetic Canvas math course JSON profiles
+```
+
+Future enriched analysis shape:
 
 ```text
 synthetic_school_state.json

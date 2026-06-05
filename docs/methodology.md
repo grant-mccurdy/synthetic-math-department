@@ -12,6 +12,12 @@ data/synthetic/synthetic_school_state.json
 
 CSV outputs are rendered from that state rather than generated as unrelated files.
 
+Canvas-style course profile JSON files are also rendered from that state:
+
+```text
+data/synthetic/canvas_course_profiles/
+```
+
 ## Baseline Environment
 
 The current baseline simulates one school year:
@@ -27,6 +33,7 @@ The v1 environment includes:
 - 9 course entries
 - 25 sections
 - one active math enrollment per student
+- 8 current-year Canvas-style course JSON profiles
 - 14 all-school math assessment assignment fields
 
 The baseline is intentionally a compact math department rather than a full-school simulation.
@@ -102,6 +109,21 @@ The state object contains:
 
 The state does not contain private calibration details, private paths, real identifiers, real emails, real teacher names, real section labels, raw source rows, or private LMS records.
 
+## Canvas Course Profiles
+
+The generator writes one Canvas-style JSON profile per current-year eligible math course. These files simulate the course-profile artifacts that downstream analysis can join to the all-school assessment gradebook.
+
+Each profile includes:
+
+- course metadata
+- synthetic Canvas course ID
+- sections for that course
+- fake teacher metadata per section
+- enrolled synthetic students
+- synthetic email join keys
+
+`MATH-BEYOND-CORE` does not receive a current-year profile because it has zero active enrollments in v1.
+
 ## Validation
 
 The validator checks:
@@ -114,3 +136,4 @@ The validator checks:
 - Assignments 02-14 are blank
 - score bounds are valid
 - banned private/source strings do not appear in public artifacts
+- Canvas course profiles cover every active enrollment exactly once
