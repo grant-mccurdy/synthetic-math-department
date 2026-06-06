@@ -14,6 +14,7 @@ The public repository may include:
 - synthetic enrollments
 - synthetic assignment scores
 - generalized calibration parameters
+- public-safe aggregate calibration diagnostics
 - generated synthetic CSV and JSON artifacts
 - methodology documentation
 
@@ -44,6 +45,7 @@ Public generator code should use:
 - generalized parameters
 - public-safe summary anchors
 - validation checks
+- optional aggregate calibration summaries
 
 Public generator code should not use:
 
@@ -52,6 +54,8 @@ Public generator code should not use:
 - source row sampling
 - private identity fields
 - private debug outputs
+
+Calibration scripts may read private local source files only when the caller supplies a path at runtime. Public calibration outputs must omit private paths, source rows, identifiers, emails, and private section labels.
 
 ## Release Check
 

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520">
+<rect width="100%" height="100%" fill="white"/>
+<text x="380.0" y="28.0" font-size="18" text-anchor="middle" font-family="Arial, sans-serif">Quantile Calibration By Grade</text>
+<line x1="64" y1="456" x2="696" y2="456" stroke="#222"/>
+<line x1="64" y1="64" x2="64" y2="456" stroke="#222"/>
+<line x1="64" y1="456" x2="696" y2="64" stroke="#999" stroke-dasharray="4 4"/>
+<line x1="64.0" y1="456" x2="64.0" y2="461" stroke="#222"/>
+<line x1="59" y1="456.0" x2="64" y2="456.0" stroke="#222"/>
+<text x="64.0" y="476.0" font-size="10" text-anchor="middle" font-family="Arial, sans-serif">0</text>
+<text x="54.0" y="460.0" font-size="10" text-anchor="end" font-family="Arial, sans-serif">0</text>
+<line x1="190.4" y1="456" x2="190.4" y2="461" stroke="#222"/>
+<line x1="59" y1="377.6" x2="64" y2="377.6" stroke="#222"/>
+<text x="190.4" y="476.0" font-size="10" text-anchor="middle" font-family="Arial, sans-serif">20</text>
+<text x="54.0" y="381.6" font-size="10" text-anchor="end" font-family="Arial, sans-serif">20</text>
+<line x1="316.8" y1="456" x2="316.8" y2="461" stroke="#222"/>
+<line x1="59" y1="299.2" x2="64" y2="299.2" stroke="#222"/>
+<text x="316.8" y="476.0" font-size="10" text-anchor="middle" font-family="Arial, sans-serif">40</text>
+<text x="54.0" y="303.2" font-size="10" text-anchor="end" font-family="Arial, sans-serif">40</text>
+<line x1="443.2" y1="456" x2="443.2" y2="461" stroke="#222"/>
+<line x1="59" y1="220.8" x2="64" y2="220.8" stroke="#222"/>
+<text x="443.2" y="476.0" font-size="10" text-anchor="middle" font-family="Arial, sans-serif">60</text>
+<text x="54.0" y="224.8" font-size="10" text-anchor="end" font-family="Arial, sans-serif">60</text>
+<line x1="569.6" y1="456" x2="569.6" y2="461" stroke="#222"/>
+<line x1="59" y1="142.4" x2="64" y2="142.4" stroke="#222"/>
+<text x="569.6" y="476.0" font-size="10" text-anchor="middle" font-family="Arial, sans-serif">80</text>
+<text x="54.0" y="146.4" font-size="10" text-anchor="end" font-family="Arial, sans-serif">80</text>
+<line x1="696.0" y1="456" x2="696.0" y2="461" stroke="#222"/>
+<line x1="59" y1="64.0" x2="64" y2="64.0" stroke="#222"/>
+<text x="696.0" y="476.0" font-size="10" text-anchor="middle" font-family="Arial, sans-serif">100</text>
+<text x="54.0" y="68.0" font-size="10" text-anchor="end" font-family="Arial, sans-serif">100</text>
+<polyline points="186.29,379.25 206.71,366.48 283.15,320.61 359.62,275.27 430.94,231.64 490.08,197.60 562.48,161.15" fill="none" stroke="#4977b8" stroke-width="2"/>
+<circle cx="186.29" cy="379.25" r="3" fill="#4977b8"/>
+<circle cx="206.71" cy="366.48" r="3" fill="#4977b8"/>
+<circle cx="283.15" cy="320.61" r="3" fill="#4977b8"/>
+<circle cx="359.62" cy="275.27" r="3" fill="#4977b8"/>
+<circle cx="430.94" cy="231.64" r="3" fill="#4977b8"/>
+<circle cx="490.08" cy="197.60" r="3" fill="#4977b8"/>
+<circle cx="562.48" cy="161.15" r="3" fill="#4977b8"/>
+<rect x="586" y="54" width="12" height="12" fill="#4977b8"/>
+<text x="604.0" y="64.0" font-size="12" text-anchor="start" font-family="Arial, sans-serif">Grade 9</text>
+<polyline points="207.73,360.39 227.12,354.69 267.88,326.82 349.41,278.99 430.94,228.00 512.53,174.23 593.04,135.94" fill="none" stroke="#43a66f" stroke-width="2"/>
+<circle cx="207.73" cy="360.39" r="3" fill="#43a66f"/>
+<circle cx="227.12" cy="354.69" r="3" fill="#43a66f"/>
+<circle cx="267.88" cy="326.82" r="3" fill="#43a66f"/>
+<circle cx="349.41" cy="278.99" r="3" fill="#43a66f"/>
+<circle cx="430.94" cy="228.00" r="3" fill="#43a66f"/>
+<circle cx="512.53" cy="174.23" r="3" fill="#43a66f"/>
+<circle cx="593.04" cy="135.94" r="3" fill="#43a66f"/>
+<rect x="586" y="74" width="12" height="12" fill="#43a66f"/>
+<text x="604.0" y="84.0" font-size="12" text-anchor="start" font-family="Arial, sans-serif">Grade 10</text>
+<polyline points="175.10,381.35 206.71,359.61 267.88,326.22 390.18,251.45 512.53,178.39 614.47,121.13 614.47,114.86" fill="none" stroke="#c08a2a" stroke-width="2"/>
+<circle cx="175.10" cy="381.35" r="3" fill="#c08a2a"/>
+<circle cx="206.71" cy="359.61" r="3" fill="#c08a2a"/>
+<circle cx="267.88" cy="326.22" r="3" fill="#c08a2a"/>
+<circle cx="390.18" cy="251.45" r="3" fill="#c08a2a"/>
+<circle cx="512.53" cy="178.39" r="3" fill="#c08a2a"/>
+<circle cx="614.47" cy="121.13" r="3" fill="#c08a2a"/>
+<circle cx="614.47" cy="114.86" r="3" fill="#c08a2a"/>
+<rect x="586" y="94" width="12" height="12" fill="#c08a2a"/>
+<text x="604.0" y="104.0" font-size="12" text-anchor="start" font-family="Arial, sans-serif">Grade 11</text>
+<polyline points="206.71,365.70 227.12,352.59 308.65,305.54 390.18,258.74 573.71,142.66 634.82,107.97 649.11,97.97" fill="none" stroke="#a64d79" stroke-width="2"/>
+<circle cx="206.71" cy="365.70" r="3" fill="#a64d79"/>
+<circle cx="227.12" cy="352.59" r="3" fill="#a64d79"/>
+<circle cx="308.65" cy="305.54" r="3" fill="#a64d79"/>
+<circle cx="390.18" cy="258.74" r="3" fill="#a64d79"/>
+<circle cx="573.71" cy="142.66" r="3" fill="#a64d79"/>
+<circle cx="634.82" cy="107.97" r="3" fill="#a64d79"/>
+<circle cx="649.11" cy="97.97" r="3" fill="#a64d79"/>
+<rect x="586" y="114" width="12" height="12" fill="#a64d79"/>
+<text x="604.0" y="124.0" font-size="12" text-anchor="start" font-family="Arial, sans-serif">Grade 12</text>
+<text x="380.0" y="502.0" font-size="12" text-anchor="middle" font-family="Arial, sans-serif">source quantile</text>
+<text x="16.0" y="260.0" font-size="12" text-anchor="start" font-family="Arial, sans-serif">repeated-sample median quantile</text>
+</svg>

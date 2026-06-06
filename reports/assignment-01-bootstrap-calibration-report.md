@@ -35,9 +35,9 @@ observed score = 0
 
 ## Interpretation
 
-Under the v1 model, a zero on Assignment 01 is a non-participation/admin outcome, not evidence of academic readiness.
+Under the current model, a zero on Assignment 01 is a non-participation/admin outcome, not evidence of academic readiness.
 
-Assignments 02-14 are intentionally blank until the longitudinal growth model is implemented.
+Assignment 02 is populated by the reusable longitudinal score engine as the end-of-year transition. Assignments 03-14 remain blank until later transitions are implemented and validated.
 
 ## Validation
 
@@ -51,5 +51,6 @@ The validator confirms:
 
 - Assignment 01 is populated for every synthetic student
 - score bounds are within `[0, 100]`
-- Assignments 02-14 remain blank
+- Assignment 02 is populated for every synthetic student
+- Assignments 03-14 remain blank
 - public artifacts do not contain banned private/source strings

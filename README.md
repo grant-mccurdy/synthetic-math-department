@@ -11,6 +11,8 @@ This repository generates coherent synthetic artifacts that can support downstre
 - Canvas-style all-school math assessment gradebook generation
 - Public-safe assessment score synthesis
 - Attendance/non-participation modeling separate from academic performance
+- Grade-level calibration diagnostics for longitudinal modeling
+- Reusable longitudinal score engine scaffold
 - Canonical state object generation
 - Validation of data coherence and public-safety constraints
 
@@ -60,6 +62,14 @@ make validate
 
 The project uses only the Python standard library.
 
+Optional grade-level calibration diagnostics can be generated from a private gradebook path:
+
+```bash
+SOURCE_GRADEBOOK=/path/to/private/gradebook.csv make calibrate-grade-level
+```
+
+The calibration target writes public-safe aggregate diagnostics only. It does not write source rows, identifiers, emails, section labels, or private paths to public outputs.
+
 ## Relationship To Assessment Intelligence
 
 This repository generates a synthetic math department environment and data artifacts.
@@ -89,7 +99,7 @@ See [docs/public-safety.md](docs/public-safety.md) for the release boundary.
 
 ## Current Status
 
-Version 1 generates a baseline 2025-2026 synthetic math department with:
+Current version generates a baseline 2025-2026 synthetic math department with:
 
 - 287 synthetic students
 - 5 synthetic teachers
@@ -98,6 +108,7 @@ Version 1 generates a baseline 2025-2026 synthetic math department with:
 - 287 active enrollments
 - 8 synthetic Canvas course JSON profiles
 - 14 assessment assignment fields
-- only `Assignment 01` populated
+- `Assignment 01` populated as beginning-of-year assessment
+- `Assignment 02` populated as the first reusable-engine end-of-year transition
 
-Assignments 02-14 are intentionally blank until the longitudinal growth model is implemented.
+Assignments 03-14 are intentionally blank until later longitudinal transitions are implemented and validated.

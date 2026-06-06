@@ -1,0 +1,11 @@
+metric,value
+p_slope_positive,0.997
+r_squared_mean,0.041022
+r_squared_median,0.036505
+recommended_grade_prior_shift_per_grade,1.795339
+slope_80_high,5.255691
+slope_80_low,1.927121
+slope_95_high,6.2664
+slope_95_low,1.153506
+slope_mean,3.638968
+slope_median,3.590678

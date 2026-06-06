@@ -14,7 +14,7 @@ In a real workflow, the all-school assessment course might produce a Canvas-styl
 
 This repository generates the public-safe synthetic version of those artifacts.
 
-## Current V1 Artifacts
+## Current Artifacts
 
 The current generator writes:
 
@@ -26,7 +26,7 @@ data/synthetic/synthetic_math_enrollments.csv
 data/synthetic/canvas_course_profiles/
 ```
 
-The gradebook contains synthetic Canvas-style student identifiers and 14 generic assignment fields. Only `Assignment 01` is populated in v1.
+The gradebook contains synthetic Canvas-style student identifiers and 14 generic assignment fields. `Assignment 01` is populated as the beginning-of-year assessment, and `Assignment 02` is populated as the end-of-year assessment. Assignments 03-14 remain scaffolded for later longitudinal transitions.
 
 The course, section, and enrollment CSVs provide the math department context needed for downstream analysis.
 
